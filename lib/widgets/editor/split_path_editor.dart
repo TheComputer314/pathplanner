@@ -141,6 +141,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
       children: [
         Center(
           child: InteractiveViewer(
+            maxScale: 10.0,
             child: GestureDetector(
               onTapDown: (details) {
                 FocusScopeNode currentScope = FocusScope.of(context);
@@ -381,6 +382,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
                           widget.path.idealStartingState.rotation = endRotation;
                           widget.path.generateAndSavePath();
                           _simulatePath();
+                          widget.onPathChanged?.call();
                         });
                       },
                       (oldValue) {
@@ -388,6 +390,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
                           widget.path.idealStartingState.rotation = oldValue!;
                           widget.path.generateAndSavePath();
                           _simulatePath();
+                          widget.onPathChanged?.call();
                         });
                       },
                     ));
@@ -400,6 +403,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
                           widget.path.goalEndState.rotation = endRotation;
                           widget.path.generateAndSavePath();
                           _simulatePath();
+                          widget.onPathChanged?.call();
                         });
                       },
                       (oldValue) {
@@ -407,6 +411,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
                           widget.path.goalEndState.rotation = oldValue!;
                           widget.path.generateAndSavePath();
                           _simulatePath();
+                          widget.onPathChanged?.call();
                         });
                       },
                     ));
@@ -422,6 +427,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
                               endRotation;
                           widget.path.generateAndSavePath();
                           _simulatePath();
+                          widget.onPathChanged?.call();
                         });
                       },
                       (oldValue) {
@@ -430,6 +436,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
                               oldValue!;
                           widget.path.generateAndSavePath();
                           _simulatePath();
+                          widget.onPathChanged?.call();
                         });
                       },
                     ));
@@ -779,7 +786,7 @@ class _SplitPathEditorState extends State<SplitPathEditor>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Failed to generate trajectory. Please open an issue on the pathplanner github and include this path file',
+              'Failed to generate trajectory. This is likely due to bad control point placement. Please adjust your control points to avoid kinks in the path.',
               style: TextStyle(
                   color: Theme.of(context).colorScheme.onErrorContainer),
             ),
